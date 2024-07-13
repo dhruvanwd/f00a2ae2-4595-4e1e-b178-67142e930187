@@ -68,7 +68,7 @@ export class AlarmClock {
         label: `${alarm.getTime()} (Snoozed ${alarm.snoozeCount} times)`,
       })),
     }) as Promise<number[]>);
-    if(selectedOptions.length === 0) {
+    if (selectedOptions.length === 0) {
       console.log("No alarms selected.");
       return;
     }
@@ -95,15 +95,30 @@ export class AlarmClock {
       console.log(`Alarm! at ${alarm.getTime()}`);
       if (alarm.day != now.format("dddd")) {
         alarm.resetSnooze();
+      } else if (alarm.day == now.format("dddd")) {
+        const currentTime = moment();
+        const dt = moment(`${alarm.time.hours}:${alarm.time.minutes}`, "HH:mm");
+        if (alarm.snoozeCount < 3 && dt.isBefore(now)) {
+          dt.add(5 * alarm.snoozeCount - 1, "minutes");
+        }
+        console.log({ diff: dt.diff(now) });
       }
     });
   }
 
-  snoozeAlarm(index: number): void {
-    if (index >= 0 && index < this.alarms.length) {
-      this.alarms[index].snooze();
-    } else {
-      console.log("Invalid alarm index");
+  async snoozeAlarm() {
+    // prompt user to snooze alarm
+    const selectedIndex = await (p.select({
+      message: "Select an alarm to snooze:",
+      options: this.alarms.map((alarm, index) => ({
+        value: index,
+        label: `${alarm.getTime()} (Snoozed ${alarm.snoozeCount} times)`,
+      })),
+    }) as Promise<number | null>);
+    if (selectedIndex === null) {
+      console.log("No alarms selected.");
+      return;
     }
+    this.alarms[selectedIndex].snooze();
   }
 }

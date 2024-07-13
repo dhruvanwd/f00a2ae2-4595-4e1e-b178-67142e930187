@@ -22,6 +22,9 @@ export class Alarm {
   snooze(): void {
     if (this.snoozeCount < 3) {
       this.snoozeCount++;
+      console.log(
+        `Snoozed ${this.getTime()}, snoozeCount ${this.snoozeCount} time(s)`
+      );
     } else {
       console.log("Maximum snooze count reached.");
     }

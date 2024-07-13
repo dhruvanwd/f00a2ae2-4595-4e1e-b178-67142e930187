@@ -6,6 +6,10 @@ intro(`Welcome to the Alart CLI App! ��`);
 // Do stuff
 const alarmClock = new AlarmClock();
 
+setInterval(() => {
+  alarmClock.checkAlarms();
+}, 1000);
+
 async function main() {
   const projectType = await select({
     message: "Select option:",
@@ -18,12 +22,12 @@ async function main() {
       { value: 6, label: "Exit" },
     ],
   });
-  console.log(`Selected option: ${projectType}`);
 
   if (isCancel(projectType)) {
     cancel("Operation cancelled.");
     process.exit(0);
   }
+  console.log(`Selected option: ${projectType}`);
 
   switch (projectType) {
     case 1:
@@ -36,21 +40,23 @@ async function main() {
       break;
     case 3:
       await alarmClock.deleteAlarm();
+      main();
       break;
     case 4:
       alarmClock.displayAlarms();
       main();
       break;
     case 5:
-      // Snooze an alarm
+      await alarmClock.snoozeAlarm();
+      main();
       break;
     case 6:
-      console.log("Goodbye!");
+      outro(`Thanks for visit!`);
       process.exit(0);
     default:
       console.log("Invalid option. Please try again.");
+      main();
       break;
   }
 }
 main();
-outro(`You're all set!`);
