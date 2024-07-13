@@ -85,23 +85,25 @@ export class AlarmClock {
       return;
     }
     this.alarms.forEach((alarm, index) => {
-      console.log(`${alarm.getTime()} (Snoozed ${alarm.snoozeCount} times)`);
+      console.log(
+        `${index + 1}. ${alarm.getTime()} (Snoozed ${alarm.snoozeCount} times)`
+      );
     });
   }
 
   checkAlarms(): void {
     const now = moment();
     this.alarms.forEach((alarm) => {
-      console.log(`Alarm! at ${alarm.getTime()}`);
       if (alarm.day != now.format("dddd")) {
         alarm.resetSnooze();
       } else if (alarm.day == now.format("dddd")) {
-        const currentTime = moment();
         const dt = moment(`${alarm.time.hours}:${alarm.time.minutes}`, "HH:mm");
-        if (alarm.snoozeCount < 3 && dt.isBefore(now)) {
+        if (alarm.snoozeCount < 3) {
           dt.add(5 * alarm.snoozeCount - 1, "minutes");
         }
-        console.log({ diff: dt.diff(now) });
+        if (dt.isBefore(now)) {
+          console.log(`Alarm! at ${alarm.getTime()}`);
+        }
       }
     });
   }
