@@ -1,0 +1,18 @@
+{
+  "name": "alarm-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "moment": "^2.30.1",
+    "ts-node": "^10.9.2"
+  }
+}
