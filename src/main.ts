@@ -8,7 +8,7 @@ const alarmClock = new AlarmClock();
 
 setInterval(() => {
   alarmClock.checkAlarms();
-}, 1000);
+}, 10000);
 
 async function main() {
   const projectType = await select({
@@ -16,7 +16,7 @@ async function main() {
     options: [
       { value: 1, label: "Display Current Time" },
       { value: 2, label: "Set an Alarm" },
-      { value: 3, label: "Delete an Alarm", hint: "oh no" },
+      { value: 3, label: "Delete an Alarm"},
       { value: 4, label: "Display Alarms" },
       { value: 5, label: "Snooze an Alarm" },
       { value: 6, label: "Exit" },
